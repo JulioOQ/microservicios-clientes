@@ -22,7 +22,7 @@ import com.jvoq.microservicios.clientes.app.services.ClientService;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@RequestMapping("/clients")
+//@RequestMapping("/clients")
 @RestController
 public class ClientController {
 	
