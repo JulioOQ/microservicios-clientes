@@ -41,7 +41,7 @@ public class Client {
 	private String correo;
 	private String direccion;
 	private String telefono;
-
+	
 	@Field("tipo_cliente")
 	@JsonProperty("tipo_cliente")
 	private String tipoCliente;
