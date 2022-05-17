@@ -32,12 +32,12 @@ public class ClientController {
 	@Autowired
 	private ClientService clientService;
 	
-	@Value("${offers.discount:default}")
-	private String discount;
+	@Value("${mensaje.verificacion:default}")
+	private String mensaje;
 	
-	@GetMapping("view-discounts")
+	@GetMapping("verificar")
 	public String viewDiscounts() {
-		return "Discount is " + discount;
+		return "Mensaje -> " + mensaje;
 	}
 
 	@GetMapping
@@ -72,8 +72,7 @@ public class ClientController {
 			c.setTipoDocumento(client.getTipoDocumento());
 			c.setNumDocumento(client.getNumDocumento());
 			c.setTipoCliente(client.getTipoCliente());
-			c.setRepresentantes(client.getRepresentantes());
-			c.setRepresentantes(client.getRepresentantes());
+			c.setRepresentantes(client.getRepresentantes());			
 			c.setJuridico(client.isJuridico());
 
 			return clientService.save(c);
