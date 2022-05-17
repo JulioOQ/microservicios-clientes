@@ -37,7 +37,6 @@ public class Client {
 	@Field("numero_documento")
 	@JsonProperty("numero_documento")
 	private String numDocumento;
-
 	private String nombres;
 	private String correo;
 	private String direccion;
@@ -53,5 +52,5 @@ public class Client {
 	@JsonProperty("fecha_creacion")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "America/Lima")
 	private Date fechaCreacion;
-
+	private boolean juridico;
 }
