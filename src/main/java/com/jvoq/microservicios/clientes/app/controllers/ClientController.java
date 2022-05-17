@@ -25,10 +25,9 @@ import reactor.core.publisher.Mono;
 //@RequestMapping("/clients")
 @RestController
 public class ClientController {
-	
+
 	@Autowired
 	private ClientService clientService;
-
 
 	@GetMapping
 	public Mono<ResponseEntity<Flux<Client>>> getAll() {
@@ -39,14 +38,12 @@ public class ClientController {
 	public Mono<ResponseEntity<Client>> getById(@PathVariable String id) {
 		return clientService.findById(id).map(c -> ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(c))
 				.defaultIfEmpty(ResponseEntity.notFound().build());
-
 	}
 
 	@PostMapping
 	public Mono<ResponseEntity<Client>> create(@RequestBody Client client) {
 		if (client.getFechaCreacion() == null) {
 			client.setFechaCreacion(new Date());
-
 		}
 
 		return clientService.save(client)
@@ -64,9 +61,9 @@ public class ClientController {
 			c.setTipoDocumento(client.getTipoDocumento());
 			c.setNumDocumento(client.getNumDocumento());
 			c.setTipoCliente(client.getTipoCliente());
-			c.setRepresentantes(client.getRepresentantes());			
 			c.setRepresentantes(client.getRepresentantes());
-			
+			c.setRepresentantes(client.getRepresentantes());
+			c.setJuridico(client.isJuridico());
 
 			return clientService.save(c);
 		}).map(c -> ResponseEntity.created(URI.create("/clients".concat(c.getIdCliente())))
@@ -79,6 +76,4 @@ public class ClientController {
 			return clientService.delete(c).then(Mono.just(new ResponseEntity<Void>(HttpStatus.NO_CONTENT)));
 		}).defaultIfEmpty(new ResponseEntity<Void>(HttpStatus.NOT_FOUND));
 	}
-
-
 }
