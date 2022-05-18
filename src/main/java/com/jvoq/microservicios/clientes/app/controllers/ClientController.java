@@ -2,6 +2,7 @@ package com.jvoq.microservicios.clientes.app.controllers;
 
 import java.net.URI;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,7 +47,11 @@ public class ClientController {
 	}
 
 	@GetMapping("/{id}")
-	public Mono<ResponseEntity<Client>> getById(@PathVariable String id) {
+	public Mono<ResponseEntity<Client>> getById(@PathVariable String id) throws InterruptedException {
+	  if(id.equals("666666")) {
+      TimeUnit.SECONDS.sleep(5L);
+    }
+	  
 		return clientService.findById(id).map(c -> ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(c))
 				.defaultIfEmpty(ResponseEntity.notFound().build());
 	}
