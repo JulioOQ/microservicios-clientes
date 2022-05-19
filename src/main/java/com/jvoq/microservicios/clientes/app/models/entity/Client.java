@@ -1,6 +1,5 @@
 package com.jvoq.microservicios.clientes.app.models.entity;
 
-
 import java.util.Date;
 import java.util.List;
 import org.springframework.data.annotation.Id;
@@ -22,35 +21,23 @@ import lombok.Setter;
 		"tipoCliente", "representantes", "fechaCreacion" })
 public class Client {
 
-  @Id
+	@Id
 	private String idCliente;
-
 	@JsonProperty("tipo_documento")
 	@Field("tipo_documento")
 	private String tipoDocumento;
-	
 	@JsonProperty("tipo_documento")
-	@Field("numero_documento")	
+	@Field("numero_documento")
 	private String numDocumento;
-	
 	private String nombres;
 	private String correo;
 	private String direccion;
 	private String telefono;
-	
 	@JsonProperty("tipo_documento")
-	@Field("tipo_cliente")	
+	@Field("tipo_cliente")
 	private String tipoCliente;
-	
 	private List<Client> representantes;
-
-	@Field("fecha_creacion")	
+	@Field("fecha_creacion")
 	private Date fechaCreacion;
-	
 	private boolean juridico;
-	
-	
-	
-	
-	
 }

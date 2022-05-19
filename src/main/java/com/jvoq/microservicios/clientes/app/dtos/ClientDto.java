@@ -16,34 +16,25 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonPropertyOrder({ "idCliente", "tipoDocumento", "numDocumento", "nombres", "telefono", "correo", "direccion",
-    "tipoCliente", "representantes", "fechaCreacion" })
+		"tipoCliente", "representantes", "fechaCreacion" })
 public class ClientDto {
 
-  @JsonProperty("id_cliente")
-  private String idCliente; 
-  
-  @JsonProperty("tipo_documento")  
-  private String tipoDocumento;
-  
-  @JsonProperty("numero_documento") 
-  private String numDocumento; 
-  private String nombres;
-  private String correo;
-  private String direccion;
-  private String telefono;
-  
-  @JsonProperty("tipo_cliente")  
-  private String tipoCliente;
-  
-  @JsonIgnoreProperties({ "id_cliente", "correo", "direccion", "telefono", "representantes", "fecha_creacion" })
-  private List<ClientDto> representantes;
-  
-  @JsonProperty("fecha_creacion")
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "America/Lima")
-  private Date fechaCreacion; 
-  private boolean juridico;
-  
-  
-  
+	@JsonProperty("id_cliente")
+	private String idCliente;
+	@JsonProperty("tipo_documento")
+	private String tipoDocumento;
+	@JsonProperty("numero_documento")
+	private String numDocumento;
+	private String nombres;
+	private String correo;
+	private String direccion;
+	private String telefono;
+	@JsonProperty("tipo_cliente")
+	private String tipoCliente;
+	@JsonIgnoreProperties({ "id_cliente", "correo", "direccion", "telefono", "representantes", "fecha_creacion" })
+	private List<ClientDto> representantes;
+	@JsonProperty("fecha_creacion")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "America/Lima")
+	private Date fechaCreacion;
+	private boolean juridico;
 }
-

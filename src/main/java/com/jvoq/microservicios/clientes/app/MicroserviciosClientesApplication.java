@@ -9,14 +9,13 @@ import org.springframework.context.annotation.Bean;
 @EnableEurekaClient
 @SpringBootApplication
 public class MicroserviciosClientesApplication {
-  
-  @Bean
-  public ModelMapper modelMapper(){
-    return new ModelMapper();
-  }
+
+	@Bean
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(MicroserviciosClientesApplication.class, args);
 	}
-
 }

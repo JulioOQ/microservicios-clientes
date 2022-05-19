@@ -13,11 +13,8 @@ public interface ClientService {
 	public Mono<ClientDto> findById(String id);
 
 	public Mono<ClientDto> save(ClientDto clientDto);
-	
-	public Mono<ClientDto> actualize(ClientDto clientDto, String id);
+
+	public Mono<ClientDto> update(ClientDto clientDto, String id);
 
 	public Mono<Void> delete(Client client);
-	
-	
-
 }

@@ -1,7 +1,6 @@
 package com.jvoq.microservicios.clientes.app.controllers;
 
 import java.net.URI;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import org.modelmapper.ModelMapper;
@@ -24,67 +23,60 @@ import com.jvoq.microservicios.clientes.app.services.ClientService;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-//@RequestMapping("/clients")
 @RefreshScope
 @RestController
 public class ClientController {
 
-  @Autowired
-  private ClientService clientService;
+	@Autowired
+	private ClientService clientService;
 
-  @Autowired
-  private ModelMapper mapper;
+	@Autowired
+	private ModelMapper mapper;
 
-  @Value("${mensaje.verificacion:default}")
-  private String mensaje;
+	@Value("${mensaje.verificacion:default}")
+	private String mensaje;
 
-  @GetMapping("verificar")
-  public String viewDiscounts() {
-    return "Mensaje -> " + mensaje;
-  }
+	@GetMapping("verificar")
+	public String viewDiscounts() {
+		return "Mensaje -> " + mensaje;
+	}
 
-  @GetMapping
-  public Mono<ResponseEntity<Flux<ClientDto>>> getAll() {
-    return Mono.just(ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(clientService.findAll()));
-  }
+	@GetMapping
+	public Mono<ResponseEntity<Flux<ClientDto>>> getAll() {
+		return Mono.just(ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(clientService.findAll()));
+	}
 
-  @GetMapping("/{id}")
-  public Mono<ResponseEntity<ClientDto>> getById(@PathVariable String id) throws InterruptedException {
-    if (id.equals("666666")) {
-      TimeUnit.SECONDS.sleep(5L);
-    }
+	@GetMapping("/{id}")
+	public Mono<ResponseEntity<ClientDto>> getById(@PathVariable String id) throws InterruptedException {
+		if (id.equals("666666")) {
+			TimeUnit.SECONDS.sleep(5L);
+		}
 
-    return clientService.findById(id).map(c -> ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(c))
-        .defaultIfEmpty(ResponseEntity.notFound().build());
-  }
+		return clientService.findById(id).map(c -> ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(c))
+				.defaultIfEmpty(ResponseEntity.notFound().build());
+	}
 
-  @PostMapping
-  public Mono<ResponseEntity<ClientDto>> create(@RequestBody ClientDto clientDto) {
+	@PostMapping
+	public Mono<ResponseEntity<ClientDto>> create(@RequestBody ClientDto clientDto) {
+		return clientService.save(clientDto)
+				.map(c -> ResponseEntity.created(URI.create("/clients".concat(c.getIdCliente())))
+						.contentType(MediaType.APPLICATION_JSON).body(c));
+	}
 
-    if (clientDto.getFechaCreacion() == null) {
-      clientDto.setFechaCreacion(new Date());
-    }
+	@PutMapping("/{id}")
+	public Mono<ResponseEntity<ClientDto>> update(@RequestBody ClientDto clientDto, @PathVariable String id) {
+		return clientService.update(clientDto, id)
+				.map(c -> ResponseEntity.created(URI.create("/clients".concat(c.getIdCliente())))
+						.contentType(MediaType.APPLICATION_JSON).body(c))
+				.defaultIfEmpty(ResponseEntity.notFound().build());
+	}
 
-    return clientService.save(clientDto).map(c -> ResponseEntity.created(URI.create("/clients".concat(c.getIdCliente())))
-        .contentType(MediaType.APPLICATION_JSON).body(c));
+	@DeleteMapping("/{id}")
+	public Mono<ResponseEntity<Void>> drop(@PathVariable String id) {
+		return clientService.findById(id).flatMap(c -> {
+			Client client = mapper.map(c, Client.class);
 
-  }
-
-  @PutMapping("/{id}")
-  public Mono<ResponseEntity<ClientDto>> update(@RequestBody ClientDto clientDto, @PathVariable String id) {
-    return clientService.actualize(clientDto, id).map(c -> ResponseEntity
-        .created(URI.create("/clients".concat(c.getIdCliente()))).contentType(MediaType.APPLICATION_JSON).body(c))
-        .defaultIfEmpty(ResponseEntity.notFound().build());
-  }
-
-  @DeleteMapping("/{id}")
-  public Mono<ResponseEntity<Void>> drop(@PathVariable String id) {
-    return clientService.findById(id).flatMap(c -> {
-      Client client = mapper.map(c, Client.class);
-
-      return clientService.delete(client).then(Mono.just(new ResponseEntity<Void>(HttpStatus.OK)));
-    }).defaultIfEmpty(new ResponseEntity<Void>(HttpStatus.NOT_FOUND));
-
-  }
-
+			return clientService.delete(client).then(Mono.just(new ResponseEntity<Void>(HttpStatus.OK)));
+		}).defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+	}
 }
