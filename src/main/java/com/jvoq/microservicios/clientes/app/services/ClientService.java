@@ -1,5 +1,6 @@
 package com.jvoq.microservicios.clientes.app.services;
 
+import com.jvoq.microservicios.clientes.app.dtos.ClientDto;
 import com.jvoq.microservicios.clientes.app.models.entity.Client;
 
 import reactor.core.publisher.Flux;
@@ -7,12 +8,16 @@ import reactor.core.publisher.Mono;
 
 public interface ClientService {
 
-	public Flux<Client> findAll();
+	public Flux<ClientDto> findAll();
 
-	public Mono<Client> findById(String id);
+	public Mono<ClientDto> findById(String id);
 
-	public Mono<Client> save(Client client);
+	public Mono<ClientDto> save(ClientDto clientDto);
+	
+	public Mono<ClientDto> actualize(ClientDto clientDto, String id);
 
 	public Mono<Void> delete(Client client);
+	
+	
 
 }
